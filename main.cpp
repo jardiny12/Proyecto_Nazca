@@ -10,18 +10,18 @@
 GLuint texturaTerreno;
 GLuint texturaAsfalto;
 bool modoMirador = false;
-// C·mara (Orbital + Desplazamiento)
+// C√°mara (Orbital + Desplazamiento)
 float camYaw = 45.0f;
 float camPitch = 45.0f;
 float radioZoom = 250.0f;
-float targetX = 0.0f;     // Punto central al que mira la c·mara
+float targetX = 0.0f;     // Punto central al que mira la c√°mara
 float targetZ = 0.0f;     // Nos permite movernos con WASD
 
 int lastMouseX = -1;
 int lastMouseY = -1;
 bool isDragging = false;
 
-// --- FUNCI”N DE CARGA DE TEXTURA (Optimizada) ---
+// --- FUNCI√ìN DE CARGA DE TEXTURA (Optimizada) ---
 GLuint cargarTextura(const char* ruta) {
     GLuint texturaID;
     glGenTextures(1, &texturaID);
@@ -45,13 +45,13 @@ GLuint cargarTextura(const char* ruta) {
     return texturaID;
 }
 
-// --- GENERACI”N DE RELIEVE PROCEDURAL ---
-// Usamos fractales basados en senos/cosenos para simular dunas y erosiÛn rocosa
-// --- GENERACI”N DE RELIEVE PROCEDURAL (M·s plano) ---
+// --- GENERACI√ìN DE RELIEVE PROCEDURAL ---
+// Usamos fractales basados en senos/cosenos para simular dunas y erosi√≥n rocosa
+// --- GENERACI√ìN DE RELIEVE PROCEDURAL (M√°s plano) ---
 float getHeight(float x, float z) {
     float h = 0.0f;
 
-    // 1. MontaÒas y cerros grandes (le dan volumen al horizonte)
+    // 1. Monta√±as y cerros grandes (le dan volumen al horizonte)
     h += sin(x * 0.015f) * cos(z * 0.015f) * 25.0f;
 
     // 2. Dunas o elevaciones medianas
@@ -84,9 +84,9 @@ void drawTerrain() {
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 
-    // --- NUEVOS LÕMITES RECTANGULARES ---
-    float limiteX = 500.0f; // M·s ancho (Izquierda - Derecha)
-    float limiteZ = 320.0f; // Menos profundo (Adelante - Atr·s)
+    // --- NUEVOS L√çMITES RECTANGULARES ---
+    float limiteX = 500.0f; // M√°s ancho (Izquierda - Derecha)
+    float limiteZ = 320.0f; // Menos profundo (Adelante - Atr√°s)
     float resolucion = 5.0f;
 
     for (float z = -limiteZ; z < limiteZ; z += resolucion) {
@@ -117,7 +117,7 @@ void drawTerrain() {
 }
 
 // --- RESERVA DE ESPACIOS (Marcadores) ---
-// --- DIBUJAR TEXTO FLOTANTE (Ahora sÌ, 100% visible y blanco) ---
+// --- DIBUJAR TEXTO FLOTANTE (Ahora s√≠, 100% visible y blanco) ---
 void dibujarTextoFlotante(float x, float z, const std::string& texto) {
     float y_terreno = getHeight(x, z);
 
@@ -126,7 +126,7 @@ void dibujarTextoFlotante(float x, float z, const std::string& texto) {
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_TEXTURE_2D); // <--- ESTO EVITA QUE LA LETRA SE VEA DEL COLOR DE LA TIERRA
 
-    // 1. CÌrculo Amarillo
+    // 1. C√≠rculo Amarillo
     glColor3f(1.0f, 1.0f, 0.0f);
     glLineWidth(2.0f);
     glBegin(GL_LINE_LOOP);
@@ -149,14 +149,14 @@ void dibujarTextoFlotante(float x, float z, const std::string& texto) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 }
-// --- C¡LCULO DE LA CURVA DE LA CARRETERA (Ajustada a la escala) ---
+// --- C√ÅLCULO DE LA CURVA DE LA CARRETERA (Ajustada a la escala) ---
 float calcularPosXCarretera(float z) {
     // Diagonal base
     float xBase = 1.3f * z + 30.0f;
 
-    // Curva del Mirador (Campana de Gauss MUCHO m·s pronunciada)
+    // Curva del Mirador (Campana de Gauss MUCHO m√°s pronunciada)
     // -90.0f es la "profundidad" de la curva hacia la izquierda.
-    // 3000.0f controla quÈ tan larga/extendida es la curva.
+    // 3000.0f controla qu√© tan larga/extendida es la curva.
     float curva = exp(-(z * z) / 3000.0f) * -90.0f;
 
     return xBase + curva;
@@ -178,7 +178,7 @@ void drawCarretera() {
 
     glBegin(GL_TRIANGLE_STRIP);
     for (float z = -limiteZ; z <= limiteZ; z += 5.0f) {
-        // Obtenemos la posiciÛn X con su respectiva curva
+        // Obtenemos la posici√≥n X con su respectiva curva
         float posX = calcularPosXCarretera(z);
 
         float yIzquierda = getHeight(posX - ancho, z) + 0.3f;
@@ -194,7 +194,7 @@ void drawCarretera() {
     }
     glEnd();
 
-    // --- DIBUJAR LA LÕNEA AMARILLA CENTRAL ---
+    // --- DIBUJAR LA L√çNEA AMARILLA CENTRAL ---
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
 
@@ -229,7 +229,7 @@ void drawMarkers() {
     dibujarTextoFlotante(-350.0f, -100.0f, "7. COLIBRI");
     dibujarTextoFlotante(-380.0f, 30.0f, "5. MONO");
 
-    // La AraÒa y el CÛndor bien alejados de la pista hacia la izquierda
+    // La Ara√±a y el C√≥ndor bien alejados de la pista hacia la izquierda
     dibujarTextoFlotante(-180.0f, -50.0f, "8. ARANA");
     dibujarTextoFlotante(-200.0f, 50.0f, "9. CONDOR");
 
@@ -253,9 +253,9 @@ void drawMarkers() {
     // La Ballena en la zona inferior izquierda de la carretera
     dibujarTextoFlotante(220.0f, 240.0f, "1. BALLENA");
 }
-// --- CONTROLES Y C¡MARA ---
+// --- CONTROLES Y C√ÅMARA ---
 void teclado(unsigned char key, int x, int y) {
-    // Calculamos los vectores de direcciÛn basados en hacia dÛnde miramos
+    // Calculamos los vectores de direcci√≥n basados en hacia d√≥nde miramos
     float yawRad = camYaw * 3.14159f / 180.0f;
     float forwardX = -sin(yawRad);
     float forwardZ = -cos(yawRad);
@@ -270,14 +270,14 @@ void teclado(unsigned char key, int x, int y) {
         case 'a': targetX -= rightX * velocidad; targetZ -= rightZ * velocidad; break;
         case 'd': targetX += rightX * velocidad; targetZ += rightZ * velocidad; break;
 
-        // Modos de c·mara
+        // Modos de c√°mara
         case '1': // MODO DRON
             radioZoom = 200.0f; camPitch = 45.0f;
             break;
         case '2': // MODO EXPLORADOR (Suelo)
             radioZoom = 40.0f; camPitch = 5.0f;
             break;
-        case '3': // MODO SAT…LITE
+        case '3': // MODO SAT√âLITE
             radioZoom = 400.0f; camPitch = 85.0f;
             break;
     }
@@ -311,7 +311,7 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    // C·mara interactiva
+    // C√°mara interactiva
     float yawRad = camYaw * 3.14159f / 180.0f;
     float pitchRad = camPitch * 3.14159f / 180.0f;
     float camX = targetX + radioZoom * cos(pitchRad) * sin(yawRad);
@@ -320,12 +320,12 @@ void display() {
 
     gluLookAt(camX, camY, camZ, targetX, getHeight(targetX, targetZ), targetZ, 0.0f, 1.0f, 0.0f);
 
-// PosiciÛn de la luz del atardecer / sol de mediodÌa...
+// Posici√≥n de la luz del atardecer / sol de mediod√≠a...
     GLfloat light_pos[] = { 200.0f, 100.0f, 200.0f, 0.0f };
     glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
 
     drawTerrain();
-    drawCarretera(); // <---- A—ADE ESTA LÕNEA AQUÕ
+    drawCarretera(); // <---- A√ëADE ESTA L√çNEA AQU√ç
     drawMarkers();
 
     glutSwapBuffers();
@@ -343,7 +343,7 @@ void reshape(int w, int h) {
 void init() {
     glEnable(GL_DEPTH_TEST);
 
-    // Cielo gris·ceo/azulado claro, cero tonos c·lidos
+    // Cielo gris√°ceo/azulado claro, cero tonos c√°lidos
     GLfloat skyColor[] = { 0.65f, 0.70f, 0.75f, 1.0f };
     glClearColor(skyColor[0], skyColor[1], skyColor[2], skyColor[3]);
 
@@ -365,14 +365,14 @@ void init() {
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
-texturaTerreno = cargarTextura("C:/Users/JARDY/Desktop/Proyecto_Nazca/dirt_aerial_02_diff_4k.jpg");
+    texturaTerreno = cargarTextura("C:/Users/JARDY/Desktop/Proyecto_Nazca/dirt_aerial_02_diff_4k.jpg");
     texturaAsfalto = cargarTextura("C:/Users/JARDY/Desktop/Proyecto_Nazca/asfalto.png");
 }
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(1024, 768); // ResoluciÛn panor·mica
+    glutInitWindowSize(1024, 768); // Resoluci√≥n panor√°mica
     glutCreateWindow("Proyecto_Nazca - Entorno");
 
     init();
