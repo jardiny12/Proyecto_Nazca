@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1779486404 source:c:\users\jardy\desktop\proyecto_nazca\main.cpp
+	<GL/glut.h>
+	<cmath>
+	<cstdlib>
+	<string>
+	"stb_image.h"
+
+1778998457 c:\users\jardy\desktop\proyecto_nazca\stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
